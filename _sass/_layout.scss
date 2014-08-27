@@ -1,0 +1,19 @@
+.banner{ background:url('../img/HeaderBc.png') 50% 50%  no-repeat; width:100%; height:594px; line-height:700px;  text-align: center; color:white; font-size:80px;}
+
+.blogList{ padding:0 19px 0 19px;}
+.blog{width:626px; margin:50px 0 0 50px;
+	h1{ height:76px;
+		a{font-size:32px; color:$blue;font-family:'宋体','Arial';cursor:pointer;text-decoration:none;}
+		a:hover{text-decoration:underline;}
+	}
+	div{height:50px; line-height:50px; border-bottom:1px solid #000; font-family:Arial;
+		*{vertical-align: top; }
+		span{font-size:16px; color:$blue;  font-weight:bold;}
+		i{ font-size:24px; color:$gray; margin-left:360px;}
+		a{margin:10px 0 0 20px; }
+	}
+	img{margin:25px 0 20px 0; height:260px;}
+	p{width:100%; text-indent:2em; font-size:16px;color:$gray; line-height:160%; font-family:'宋体','Arial';  height: 100px; overflow:hidden;text-overflow: ellipsis;}
+	.more{font-size:24px;color:$blue; margin:10px 0 0 516px; display:block;font-style: italic;cursor:pointer;text-decoration:none;}
+	.more:hover{text-decoration:underline;}
+}
