@@ -8,8 +8,8 @@ footer p{text-align: center;color: #666; margin-top: 20px; }
 
 html,body{margin: 0 auto;width:100%;}
 nav{width: 100%;height:48px; background: #eee;}
-nav a{font-size: 16px; color: #666;display: block;height: 48px; line-height: 48px;}
-
+nav a{font-size: 16px; color: #666;display: block;height: 48px; line-height: 48px; cursor: pointer; text-decoration: none;}
+nav .current{color:#33A6CD;}
 
 
 .hide{display:none;}
@@ -31,17 +31,19 @@ nav a{font-size: 16px; color: #666;display: block;height: 48px; line-height: 48p
 .aside_wide{width:100%; }
 .aside_wide h1{background:#eee;display: block;height: 48px; line-height: 48px; color:#EE6557; font-size: 20px; font-style: normal; text-indent: 20px; }
 .aside_wide h2{font-size: 20px; font-style: normal; text-indent: 20px; margin-top:15px; }
-.aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px;}
+.aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px 15px 20px;}
 
 .aside_norrow{width:100%; margin-top: 20px;}
 .aside_norrow h1{font-size: 20px; font-style: normal; color:#EE6557; text-indent: 20px;}
 .aside_norrow li{list-style:disc inside; margin-top: 15px; text-indent: 20px;}
-.aside_norrow li a{font-size: 16px; color: #000; text-decoration: underline;}
+.aside_norrow li a{font-size: 16px; color: #000; text-decoration: underline; cursor: pointer;}
+.aside_norrow .sub{list-style: none !important; text-indent: 40px !important;}
+.aside_norrow .sub a{color: #666;text-decoration: none;}
 
 .githublink{display: block; width: 100%; height: 40px; margin-top: 20px; text-indent: 20px;}
-.githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; }
+.githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; color: #000; }
 
-pre{background:#23241F;color: #fff;display: block;padding: 25px 20px; font-size: 16px; line-height: 150%; }
+pre{background:#23241F;color: #fff;display: block;padding: 15px 15px; font-size: 16px; line-height: 150%; margin:15px 0; }
 pre *{font-size: 16px;}
 
 /*hidden img*/

@@ -2,10 +2,9 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/public.css" media="screen">
     <link rel="stylesheet" type="text/css" href="css/monokai_sublime.css" media="screen">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -16,11 +15,11 @@
       <img src='img/logo.png' />
     </header>
     <nav class='fixLayout'>
-      <a class='l'>Home</a>
-      <a class='l'>API Documentation</a>
-      <a class='l'>Blog</a>
+      <a class='l current'>Home</a>
+      <a class='l' href='doc/index.html'>API Documentation</a>
+      <a class='l' target="_blank" href='http://arthusliang.github.io/blog/'>Blog</a>
       <a class='r'>Contribute</a>
-      <a class='r'>Download</a>
+      <a class='r' target="_blank" href='js/Jsonic.js'>Download</a>
     </nav>
     <div class='banner'>
       <div>
@@ -54,7 +53,7 @@
             <h2>Compose music</h2>
             <p>Create a music socre.</p>
 <pre><code>var N = function(rollcall,duration,freqIndex,hasDot,isPart){
-    return new Guitar.Note(rollcall,duration,freqIndex,hasDot,isPart);
+    return new Jsonic.Melody.Note(rollcall,duration,freqIndex,hasDot,isPart);
 };
 var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');
 musisSocre.w(N(3),N(3),N(4),N(5),N(5),N(4),N(3),N(2));</code></pre>
@@ -71,12 +70,12 @@ voix.start();</code></pre>
       <aside class='aside_norrow l'>
         <h1>Resource</h1>
         <ul>
-          <li><a>Jsonic Core API Documentation</a></li>
-          <li><a>Jsonic's Blog</a></li>
+          <li><a href='doc/index.html'>Jsonic Core API Documentation</a></li>
+          <li><a href='http://arthusliang.github.io/blog/'>Jsonic's Blog</a></li>
           <li><a>Jsonic's Demo</a></li>
-          <li><a>Jsonic's Author</a></li>
+          <li><a href="http://www.cnblogs.com/Arthus/">Author's Blog</a></li>
         </ul>
-        <a class='githublink'>
+        <a class='githublink' href="https://github.com/ArthusLiang/jsonic" target="_blank">
           <img src="img/github.png" /><span>ArthusLiang</span>
         </a>
       </aside>

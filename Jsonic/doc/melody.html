@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" type="text/css" href="../css/public.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/monokai_sublime.css" media="screen">
+      <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Jsonic Documentation</title>
+  </head>
+  <body>
+    <header>
+      <img src='../img/logo.png' />
+    </header>
+    <nav class='fixLayout'>
+      <a class='l' href='../index.html'>Home</a>
+      <a class='l current'>API Documentation</a>
+      <a class='l' target="_blank" href='http://arthusliang.github.io/blog/'>Blog</a>
+      <a class='r'>Contribute</a>
+      <a class='r' target="_blank" href='../js/Jsonic.js'>Download</a>
+    </nav>
+    <div class='banner'>
+      <div>
+        <a>
+          <img src='../img/banner_p1.png' />
+          <span>Compose music</span>
+        </a><a>
+          <img src='../img/banner_p2.png' />
+          <span>Ultrasound channel</span>
+        </a><a>
+          <img src='../img/banner_p3.png' />
+          <span>Audio Visualization</span>
+        </a><a>
+          <img src='../img/banner_p4.png' />
+          <span>Speech Recognition</span>
+        </a>
+      </div>
+    </div>
+    <div class='fixLayout main'>
+      <div class='aside_wide l'>
+        <article>
+          <section>
+            <h1 id='Note'>Note</h1>
+            <h2>Jsonic.Melody.Note</h2>
+            <p>Create a music note</p>
+<pre><code>var newnote = new Jsonic.Melody.Note(0,1/2,0,true);</code></pre>
+            <p>Param</p>
+<pre><code>/*
+* @param rollcall number in [0,1,2,3,4,5,6,7]/1#.2b
+* @param duration number 1,1/2,1/4,1/8,1/12,1/16
+* @param freIndex number the index of the note array
+* @param hasDot boolen
+* @param isPart for complie
+*/
+var Note =function(rollcall,duration,freqIndex,hasDot,isPart){
+    //...
+};</code></pre>
+          </section>
+          <section>
+            <h1 id='MusicScore'>MusicScore</h1>
+            <h2>Jsonic.Melody.MusicScore</h2>
+            <p>Create a music score</p>
+<pre><code>var N = function(rollcall,duration,freqIndex,hasDot,isPart){
+    return new Jsonic.Melody.Note(rollcall,duration,freqIndex,hasDot,isPart);
+};
+var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');
+musisSocre.w(N(3),N(3),N(4),N(5),N(5),N(4),N(3),N(2));</code></pre>
+          </section>
+          <section>
+            <h1 id='Track'>Track</h1>
+            <h2>Jsonic.Melody.Track</h2>
+            <p>create a track</p>
+<pre><code>var player = new Jsonic.Melody.Track();</code></pre>
+            <p>play a music score</p>
+<pre><code>//...
+musisSocre.compile();
+var player = new Jsonic.Melody.Track();
+player.play(musisSocre,120);
+//...</code></pre>
+          </section>
+        </article>
+      </div>
+      <aside class='aside_norrow l'>
+        <h1>API</h1>
+        <ul>
+          <li><a href="index.html">Get Start</a></li>
+          <li><a href="core.html">Core</a></li>
+          <li class='sub'><a href="core.html#Browser">Browser</a></li>
+          <li class='sub'><a href="core.html#noConflict">noConflict</a></li>
+          <li><a href="melody.html">Compose music</a></li>
+          <li class='sub'><a href="melody.html#MusicScore">MusicScore</a></li>
+          <li class='sub'><a href="melody.html#Note">Note</a></li>
+          <li class='sub'><a href="melody.html#Track">Track</a></li>
+          <li><a href="ultrasound.html">Ultrasound Channel</a></li>
+          <li class='sub'><a href="ultrasound.html#Sender">Sender</a></li>
+          <li class='sub'><a href="ultrasound.html#Accepter">Accepter</a></li>
+          <li><a href="painter.html">Audio Visualiztion</a></li>
+          <li><a href="Voix.html">Speech Recognition</a></li>
+        </ul>
+        <a class='githublink' href="https://github.com/ArthusLiang/jsonic" target="_blank">
+          <img src="../img/github.png" /><span>ArthusLiang</span>
+        </a>
+      </aside>
+    </div>
+    <footer>
+      <div class='st30'></div>
+      <p>ArthusLiang@gmail.com</p>
+      <p>© 2014-2015 Arthus</p>
+    </footer>
+  </body>
+  <script type="text/javascript" src='../js/highlight.pack.js'></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+</html>
