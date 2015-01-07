@@ -1,0 +1,67 @@
+*{margin: 0px; padding: 0px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;}
+
+header{width:100%; height:170px;}
+header img{margin: 45px 0 0 65px;}
+
+footer{width:100%; height:150px; background: #eee;margin-top: 40px; }
+footer p{text-align: center;color: #666; margin-top: 20px; }
+
+html,body{margin: 0 auto;width:100%;}
+nav{width: 100%;height:48px; background: #eee;}
+nav a{font-size: 16px; color: #666;display: block;height: 48px; line-height: 48px;}
+
+pre{background: #333;color: #fff;display: block;padding: 25px 20px; font-size: 16px; line-height: 150%; }
+
+.hide{display:none;}
+.fixLayout{clear: both;overflow: hidden;zoom:0;}
+.r{ float: right;}
+.l{ float: left;}
+
+.st30{display: block; height: 30px; width: 100%;}
+
+/*Index only, Care for the url*/
+.banner{height: 230px; width:100%; background: #333; padding-top: 70px;}
+.banner div{width: 960px; margin: 0 auto;}
+.banner div a{display: inline-block; width: 240px; height: 170px;}
+.banner div a img{margin: 0 auto; display:block;}
+.banner div a span{display: block;width:100%;margin-top: 50px; height: 20px; line-height: 20px; font-size: 16px; color: white; text-align: center;}
+
+.main{width: 100%; margin-top: 20px;}
+
+.aside_wide{width:100%; }
+.aside_wide h1{background:#eee;display: block;height: 48px; line-height: 48px; color:#EE6557; font-size: 20px; font-style: normal; text-indent: 20px; }
+.aside_wide h2{font-size: 20px; font-style: normal; text-indent: 20px; margin-top:15px; }
+.aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px;}
+
+.aside_norrow{width:100%;}
+.aside_norrow h1{font-size: 20px; font-style: normal; color:#EE6557; text-indent: 20px;}
+.aside_norrow li{list-style:disc inside; margin-top: 15px; text-indent: 20px;}
+.aside_norrow li a{font-size: 16px; color: #000; text-decoration: underline;}
+
+.githublink{display: block; width: 100%; height: 40px; margin-top: 20px; text-indent: 20px;}
+.githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; }
+
+
+
+
+/*hidden img*/
+@media screen and (max-width: 799px){
+    nav a{padding:0 15px;}
+    .banner{display: none;}
+    .aside_wide h1{background:transparent;}
+}
+
+/*one colum*/
+@media screen and (min-width: 800px) and (max-width:1023px){
+    nav a{padding:0 25px;}
+    .banner div{width: 800px;}
+    .banner div a{display: inline-block; width: 200px; height: 170px;}
+}
+
+/*two colum*/
+@media screen and (min-width: 1024px){
+    body{max-width: 1280px;}
+    nav a{padding:0 40px;}
+    .aside_wide article{margin:0 320px 0 20px;}
+    .aside_norrow{width:300px;margin-left: -300px; }
+}

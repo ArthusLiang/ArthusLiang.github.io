@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/public.css" media="screen">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Jsonic</title>
+  </head>
+  <body>
+    <header>
+      <img src='img/logo.png' />
+    </header>
+    <nav class='fixLayout'>
+      <a class='l'>Home</a>
+      <a class='l'>API Documentation</a>
+      <a class='l'>Blog</a>
+      <a class='r'>Contribute</a>
+      <a class='r'>Download</a>
+    </nav>
+    <div class='banner'>
+      <div>
+        <a>
+          <img src='img/banner_p1.png' />
+          <span>Compose music</span>
+        </a><a>
+          <img src='img/banner_p2.png' />
+          <span>Ultrasound channel</span>
+        </a><a>
+          <img src='img/banner_p3.png' />
+          <span>Audio Visualization</span>
+        </a><a>
+          <img src='img/banner_p4.png' />
+          <span>Speech Recognition</span>
+        </a>
+      </div>
+    </div>
+    <div class='fixLayout main'>
+      <div class='aside_wide l'>
+        <article>
+          <section>
+            <h1>What's Jsonic</h1>
+            <p>Jsonic is a small and feature-rich javascript library. It helps to improve the intaction of sound in HTML5 website or apps. With Jsonic, you can compose music, transfer data with urltrasonic channel, make sound wave visualible, do some speech recognition and so on.</p>
+          </section>
+          <section>
+            <h1>Glance</h1>
+            <h2>Compose music</h2>
+            <p>Create a music socre.</p>
+            <pre>var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');</pre>
+            <h2>Speech Recognition</h2>
+            <p>Build an event with what peaple say</p>
+            <pre>var voix = new Jsonic.Voix(undefined,undefined,true);
+voix.bind(’hi’,function(){
+    alert(’hi’);
+});</pre>
+          </section>
+        </article>
+      </div>
+      <aside class='aside_norrow l'>
+        <h1>Resource</h1>
+        <ul>
+          <li><a>Jsonic Core API Documentation</a></li>
+          <li><a>Jsonic's Blog</a></li>
+          <li><a>Jsonic's Demo</a></li>
+          <li><a>Jsonic's Author</a></li>
+        </ul>
+        <a class='githublink'>
+          <img src="img/github.png" /><span>ArthusLiang</span>
+        </a>
+      </aside>
+    </div>
+    <footer>
+      <div class='st30'></div>
+      <p>ArthusLiang@gmail.com</p>
+      <p>© 2014-2015 Arthus</p>
+    </footer>
+  </body>
+</html>
