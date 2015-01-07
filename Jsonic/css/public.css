@@ -10,7 +10,7 @@ html,body{margin: 0 auto;width:100%;}
 nav{width: 100%;height:48px; background: #eee;}
 nav a{font-size: 16px; color: #666;display: block;height: 48px; line-height: 48px;}
 
-pre{background: #333;color: #fff;display: block;padding: 25px 20px; font-size: 16px; line-height: 150%; }
+
 
 .hide{display:none;}
 .fixLayout{clear: both;overflow: hidden;zoom:0;}
@@ -33,7 +33,7 @@ pre{background: #333;color: #fff;display: block;padding: 25px 20px; font-size: 1
 .aside_wide h2{font-size: 20px; font-style: normal; text-indent: 20px; margin-top:15px; }
 .aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px;}
 
-.aside_norrow{width:100%;}
+.aside_norrow{width:100%; margin-top: 20px;}
 .aside_norrow h1{font-size: 20px; font-style: normal; color:#EE6557; text-indent: 20px;}
 .aside_norrow li{list-style:disc inside; margin-top: 15px; text-indent: 20px;}
 .aside_norrow li a{font-size: 16px; color: #000; text-decoration: underline;}
@@ -41,10 +41,13 @@ pre{background: #333;color: #fff;display: block;padding: 25px 20px; font-size: 1
 .githublink{display: block; width: 100%; height: 40px; margin-top: 20px; text-indent: 20px;}
 .githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; }
 
-
-
+pre{background:#23241F;color: #fff;display: block;padding: 25px 20px; font-size: 16px; line-height: 150%; }
+pre *{font-size: 16px;}
 
 /*hidden img*/
+@media screen and (max-width: 540px){
+    nav{height: 96px;}
+}
 @media screen and (max-width: 799px){
     nav a{padding:0 15px;}
     .banner{display: none;}
@@ -63,5 +66,5 @@ pre{background: #333;color: #fff;display: block;padding: 25px 20px; font-size: 1
     body{max-width: 1280px;}
     nav a{padding:0 40px;}
     .aside_wide article{margin:0 320px 0 20px;}
-    .aside_norrow{width:300px;margin-left: -300px; }
+    .aside_norrow{width:300px;margin:0 0 0 -300px; }
 }
