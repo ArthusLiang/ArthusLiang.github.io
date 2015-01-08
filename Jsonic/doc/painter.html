@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" type="text/css" href="../css/public.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/monokai_sublime.css" media="screen">
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width,minimal-ui,target-densitydpi=device-dpi"  >
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Jsonic Documentation</title>
+  </head>
+  <body>
+    <header>
+      <img src='../img/logo.png' />
+    </header>
+    <nav class='fixLayout'>
+      <a class='l' href='../index.html'>Home</a>
+      <a class='l current'>API Documentation</a>
+      <a class='l' target="_blank" href='http://arthusliang.github.io/blog/'>Blog</a>
+      <a class='r'>Contribute</a>
+      <a class='r' target="_blank" href='../js/Jsonic.js'>Download</a>
+    </nav>
+    <div class='banner'>
+      <div>
+        <a>
+          <img src='../img/banner_p1.png' />
+          <span>Compose music</span>
+        </a><a>
+          <img src='../img/banner_p2.png' />
+          <span>Ultrasound channel</span>
+        </a><a>
+          <img src='../img/banner_p3.png' />
+          <span>Audio Visualization</span>
+        </a><a>
+          <img src='../img/banner_p4.png' />
+          <span>Speech Recognition</span>
+        </a>
+      </div>
+    </div>
+    <div class='fixLayout main'>
+      <div class='aside_wide l'>
+        <article>
+          <section>
+            <h1>Painter</h1>
+            <h2>Constructor</h2>
+<pre><code>var painter = new Jsonic.Painter();</code></pre>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">CanvasList</td><td width="20%">Object</td><td width="60%">The canvases will be rendered</td></tr>
+              <tr><td>DataReceiverList</td><td>Object</td><td>The objects offer the data</td></tr>
+              <tr><td>IfRender</td><td>Boolean</td><td>Whether the painter is running</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.attach()</h3>
+            <p class='funcDesc'>Match canvas and source</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">canvas</td><td width="20%">Dom</td><td width="60%">Canvas</td></tr>
+              <tr><td>analyser</td><td>Object</td><td>web audio analyserNode</td></tr>
+              <tr><td>renderObj</td><td>Object</td><td>render config</td></tr>
+            </table>
+<pre><code>painter.attach(canvas,analyserNode,{'FF':{func:'wave'}});</code></pre>
+            <h3>.start()</h3>
+            <p class='funcDesc'>start rendering canvases</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">objs</td><td width="20%">Object | null</td><td width="60%">If null, only the object will start.</td></tr>
+            </table>
+<pre><code>painter.start();</code></pre>
+            <h3>.stop()</h3>
+            <p class='funcDesc'>stop rendering canvases</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">objs</td><td width="20%">Object | null</td><td width="60%">If null, only the object will stop.</td></tr>
+            </table>
+<pre><code>painter.stop();</code></pre>
+            </section>
+        </article>
+      </div>
+      <aside class='aside_norrow l'>
+        <h1>API</h1>
+        <ul>
+          <li><a href="index.html">Get Start</a></li>
+          <li><a href="core.html">Core</a></li>
+          <li class='sub'><a href="core.html#Browser">Browser</a></li>
+          <li><a href="melody.html">Melody</a></li>
+          <li class='sub'><a href="melody.html#MusicScore">MusicScore</a></li>
+          <li class='sub'><a href="melody.html#Note">Note</a></li>
+          <li class='sub'><a href="melody.html#Track">Track</a></li>
+          <li><a href="ultrasound.html">Ultrasound</a></li>
+          <li><a href="painter.html">Painter</a></li>
+          <li><a href="Voix.html">Voix</a></li>
+        </ul>
+        <a class='githublink' href="https://github.com/ArthusLiang/jsonic" target="_blank">
+          <img src="../img/github.png" /><span>ArthusLiang</span>
+        </a>
+      </aside>
+    </div>
+    <footer>
+      <div class='st30'></div>
+      <p>ArthusLiang@gmail.com</p>
+      <p>© 2014-2015 Arthus</p>
+    </footer>
+  </body>
+  <script type="text/javascript" src='../js/highlight.pack.js'></script>
+  <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+</html>

@@ -43,32 +43,67 @@
       <div class='aside_wide l'>
         <article>
           <section>
-            <h1 id='Track'>Ultrasound</h1>
+            <h1>Ultrasound</h1>
             <h2>Constructor</h2>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
-              <tr><td width="20%">context</td><td width="20%">Object | null</td><td width="60%">Audio Contect</td></tr>
+              <tr><td width="20%">opt</td><td width="20%">Object | null</td><td width="60%">The config of Ultrasound</td></tr>
             </table>
-<pre><code>var track = new Jsonic.Melody.Track();</code></pre>
+<pre><code>var ultrasound = new Jsonic.Ultrasound();</code></pre>
             <h2>Property</h2>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
-              <tr><td width="20%">Ctx</td><td width="20%">Object</td><td width="60%">The contect of the track</td></tr>
-              <tr><td>IsRunning</td><td>boolean</td><td>Is Running</td></tr>
-              <tr><td>AnalyserNode</td><td>Object</td><td>web aduio analyserNode</td></tr>
-              <tr><td>WaveShaperNode</td><td>Object</td><td>web aduio waveShaperNode</td></tr>
+              <tr><td width="20%">AudioContext</td><td width="20%">Object</td><td width="60%">The contect of the track</td></tr>
+              <tr><td>Coder</td><td>Object</td><td>The Object for acoustic coding</td></tr>
             </table>
             <h2>Method</h2>
-            <h3>.play()</h3>
-            <p class='funcDesc'>play a music score</p>
-            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
-              <tr><td width="20%">musicScore</td><td width="20%">Object</td><td width="60%">the instance of MusicScore</td></tr>
-              <tr><td>speed</td><td>number</td><td>how many 1/4 note in a minute</td></tr>
-              <tr><td>curve</td><td>number</td><td>the amount of curve</td></tr>
-            </table>
-<pre><code>track.play(musisSocre,90);</code></pre>
-            <h3>.stop()</h3>
-            <p class='funcDesc'>Stop playing</p>
-<pre><code>track.stop();</code></pre>
-          </section>
+            <h3>.createSender()</h3>
+            <p class='funcDesc'>create an instance of SonicSender</p>
+<pre><code>var sender = ultrasound.createSender();</code></pre>
+            <h3>.createAccepter()</h3>
+            <p class='funcDesc'>create an instance of SonicAccepter</p>
+<pre><code>var accepter = ultrasound.createAccepter();</code></pre>
+            </section>
+            <section>
+                <h1>SonicSender</h1>
+                <h2>Method</h2>
+                <h3>.send()</h3>
+                <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+                    <tr><td width="20%">msg</td><td width="20%">string</td><td width="60%">The message to send.(By default, only 0-9 can be sent.)</td></tr>
+                    <tr><td width="20%">callback</td><td width="20%">Function | null</td><td width="60%">callback function</td></tr>
+                </table>
+                <p class='funcDesc'>Send a message by ultrasound</p>
+                <pre><code>sender.send('123');</code></pre>
+            </section>
+            <section>
+                <h1>SonicAccepter</h1>
+                <h2>Method</h2>
+                <h3>.start()</h3>
+                <p class='funcDesc'>start to listen to the sonic</p>
+<pre><code>accepter.start();</code></pre>
+                <h3>.stop()</h3>
+                <p class='funcDesc'>stop listening to the sonic</p>
+<pre><code>accepter.stop();</code></pre>
+                <h3>.bind()</h3>
+                <p class='funcDesc'>bind event</p>
+                <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+                    <tr><td width="20%">msg</td><td width="20%">string</td><td width="60%">message</td></tr>
+                    <tr><td width="20%">func</td><td width="20%">Function | null</td><td width="60%">event</td></tr>
+                </table>
+<pre><code>accepter.bind('123',event);</code></pre>
+                <h3>.unbind()</h3>
+                <p class='funcDesc'>unbind event</p>
+                <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+                    <tr><td width="20%">msg</td><td width="20%">string</td><td width="60%">message</td></tr>
+                    <tr><td width="20%">func</td><td width="20%">Function | null</td><td width="60%">event</td></tr>
+                </table>
+<pre><code>accepter.unbind('123',event);</code></pre>
+                <h3>.one()</h3>
+                <p class='funcDesc'>bind an event which will be fired only once</p>
+                <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+                    <tr><td width="20%">msg</td><td width="20%">string</td><td width="60%">message</td></tr>
+                    <tr><td width="20%">func</td><td width="20%">Function | null</td><td width="60%">event</td></tr>
+                </table>
+<pre><code>accepter.one('123',event);</code></pre>
+            </section>
         </article>
       </div>
       <aside class='aside_norrow l'>
