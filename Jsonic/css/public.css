@@ -45,6 +45,8 @@ nav .current{color:#33A6CD;}
 .githublink{display: block; width: 100%; height: 40px; margin-top: 20px; text-indent: 20px;}
 .githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; color: #000; }
 
+.btn{display: inline-block; height: 40px; line-height: 40px; text-align: center;padding: 0 40px; background: #33A6CD; color: white; font-size: 18px; }
+
 pre{background:#23241F;color: #fff;display: block;padding: 5px 10px; font-size: 16px; line-height: 150%; margin:15px 0; white-space: pre-wrap; word-wrap: break-word;}
 pre *{font-size: 16px;}
 
