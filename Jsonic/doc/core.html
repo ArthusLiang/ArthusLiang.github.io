@@ -44,19 +44,21 @@
         <article>
           <section>
             <h1 id='Browser'>Browser</h1>
-            <h2>Get browser's information</h2>
-            <p>Jsonic use Brower to detect the browser.</p>
-<pre><code>var _name = Jsonic.Browser.Name; //return chrome|safari|msie|firefox|opera
-var _prefix = Jsonic.Browser.Prefix; //return webkit|ms|moz
-var _version = Jsonic.Browser.Version; //return a string</code></pre>
-            <h2>attrPrefix</h2>
-            <p>Compatibility</p>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">Name</td><td width="20%">string</td><td width="60%">return chrome | safari | msie | firefox | opera</td></tr>
+              <tr><td>Prefix</td><td>string</td><td>return webkit | ms | moz</td></tr>
+              <tr><td>Version</td><td>string</td><td>return a string as 1.0.0</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.attrPrefix()</h3>
+            <p class='funcDesc'>Make a new object without prefix</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">obj</td><td width="20%">Object</td><td width="60%">The Owner of the new object</td></tr>
+              <tr><td>attr</td><td>string</td><td>The name of the function</td></tr>
+              <tr><td>func</td><td>Function | Null</td><td>Custom implementation</td></tr>
+            </table>
 <pre><code>Jsonic.Browser.attrPrefix(window,'AudioContext');</code></pre>
-          </section>
-          <section>
-            <h1 id='noConflict'>noConflict</h1>
-            <p>The same as the noConflict functinon in Jquery.</p>
-<pre><code>Jsonic.noConflict();</code></pre>
           </section>
         </article>
       </div>
@@ -66,16 +68,13 @@ var _version = Jsonic.Browser.Version; //return a string</code></pre>
           <li><a href="index.html">Get Start</a></li>
           <li><a href="core.html">Core</a></li>
           <li class='sub'><a href="core.html#Browser">Browser</a></li>
-          <li class='sub'><a href="core.html#noConflict">noConflict</a></li>
-          <li><a href="melody.html">Compose music</a></li>
+          <li><a href="melody.html">Melody</a></li>
           <li class='sub'><a href="melody.html#MusicScore">MusicScore</a></li>
           <li class='sub'><a href="melody.html#Note">Note</a></li>
           <li class='sub'><a href="melody.html#Track">Track</a></li>
-          <li><a href="ultrasound.html">Ultrasound Channel</a></li>
-          <li class='sub'><a href="ultrasound.html#Sender">Sender</a></li>
-          <li class='sub'><a href="ultrasound.html#Accepter">Accepter</a></li>
-          <li><a href="painter.html">Audio Visualiztion</a></li>
-          <li><a href="Voix.html">Speech Recognition</a></li>
+          <li><a href="ultrasound.html">Ultrasound</a></li>
+          <li><a href="painter.html">Painter</a></li>
+          <li><a href="Voix.html">Voix</a></li>
         </ul>
         <a class='githublink' href="https://github.com/ArthusLiang/jsonic" target="_blank">
           <img src="../img/github.png" /><span>ArthusLiang</span>
