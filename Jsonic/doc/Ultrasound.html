@@ -43,14 +43,31 @@
       <div class='aside_wide l'>
         <article>
           <section>
-            <h1>What's Jsonic</h1>
-            <p>Jsonic is a small and feature-rich javascript library. It helps to improve the intaction of sound in HTML5 website or apps. With Jsonic, you can compose music, transfer data with urltrasonic channel, make sound wave visualible, do some speech recognition and so on.</p>
-          </section>
-          <section>
-            <h1>Get start</h1>
-            <h3>Use Jsonic</h3>
-            <p>Link Jsonic as usual. Jsonic only works on HTML5 browser now.</p>
-<pre><code>&lt;script type="text/javascript" src="Jsonic.js"&gt;&lt;/script&gt;</code></pre>
+            <h1 id='Track'>Ultrasound</h1>
+            <h2>Constructor</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">context</td><td width="20%">Object | null</td><td width="60%">Audio Contect</td></tr>
+            </table>
+<pre><code>var track = new Jsonic.Melody.Track();</code></pre>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">Ctx</td><td width="20%">Object</td><td width="60%">The contect of the track</td></tr>
+              <tr><td>IsRunning</td><td>boolean</td><td>Is Running</td></tr>
+              <tr><td>AnalyserNode</td><td>Object</td><td>web aduio analyserNode</td></tr>
+              <tr><td>WaveShaperNode</td><td>Object</td><td>web aduio waveShaperNode</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.play()</h3>
+            <p class='funcDesc'>play a music score</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">musicScore</td><td width="20%">Object</td><td width="60%">the instance of MusicScore</td></tr>
+              <tr><td>speed</td><td>number</td><td>how many 1/4 note in a minute</td></tr>
+              <tr><td>curve</td><td>number</td><td>the amount of curve</td></tr>
+            </table>
+<pre><code>track.play(musisSocre,90);</code></pre>
+            <h3>.stop()</h3>
+            <p class='funcDesc'>Stop playing</p>
+<pre><code>track.stop();</code></pre>
           </section>
         </article>
       </div>

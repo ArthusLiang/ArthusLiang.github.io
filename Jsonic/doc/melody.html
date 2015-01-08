@@ -44,42 +44,115 @@
         <article>
           <section>
             <h1 id='Note'>Note</h1>
-            <h2>Jsonic.Melody.Note</h2>
-            <p>Create a music note</p>
-<pre><code>var newnote = new Jsonic.Melody.Note(0,1/2,0,true);</code></pre>
-            <p>Param</p>
-<pre><code>/*
-* @param rollcall number in [0,1,2,3,4,5,6,7]/1#.2b
-* @param duration number 1,1/2,1/4,1/8,1/12,1/16
-* @param freIndex number the index of the note array
-* @param hasDot boolen
-* @param isPart for complie
-*/
-var Note =function(rollcall,duration,freqIndex,hasDot,isPart){
-    //...
-};</code></pre>
+            <h2>Constructor</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">rollcall</td><td width="20%">string</td><td width="60%">[0,1,2,3,4,5,6,7]/1#.2b</td></tr>
+              <tr><td>duration</td><td>number</td><td>1,1/2,1/4,1/8,1/12,1/16</td></tr>
+              <tr><td>freqIndex</td><td>number</td><td>the index of the note array(Defalut 0)</td></tr>
+              <tr><td>hasDot</td><td>string</td><td>Whether has dot</td></tr>
+              <tr><td>isPart</td><td>string</td><td>only for complie</td></tr>
+            </table>
+<pre><code>var note = new Jsonic.Melody.Note(0,1/2,0,true);</code></pre>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">Rollcall</td><td width="20%">string</td><td width="60%">[0,1,2,3,4,5,6,7]/1#.2b</td></tr>
+              <tr><td>FreqIndex</td><td>number</td><td>the index of the note array(Defalut 0)</td></tr>
+              <tr><td>Duration</td><td>number</td><td>1,1/2,1/4,1/8,1/12,1/16</td></tr>
+              <tr><td>HasDot</td><td>string</td><td>Whether has dot</td></tr>
+              <tr><td>_len</td><td>string</td><td>The real duration with the dot</td></tr>
+              <tr><td>BaseRollCall</td><td>string</td><td>[0,1,2,3,4,5,6,7]</td></tr>
+              <tr><td>HalfRollCall</td><td>0,-1,1</td><td>#,b</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.divid()</h3>
+            <p class='funcDesc'>private method for complie</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">remain</td><td width="20%">number</td><td width="60%">Duration</td></tr>
+              <tr><td>sectionMax</td><td>number</td><td>The max length of a section</td></tr>
+            </table>
+            <h3>.setDot()</h3>
+            <p class='funcDesc'>To set the _len of new Object</p>
           </section>
           <section>
             <h1 id='MusicScore'>MusicScore</h1>
-            <h2>Jsonic.Melody.MusicScore</h2>
-            <p>Create a music score</p>
-<pre><code>var N = function(rollcall,duration,freqIndex,hasDot,isPart){
-    return new Jsonic.Melody.Note(rollcall,duration,freqIndex,hasDot,isPart);
-};
-var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');
-musisSocre.w(N(3),N(3),N(4),N(5),N(5),N(4),N(3),N(2));</code></pre>
+            <h2>Constructor</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">alphabet</td><td width="20%">string</td><td width="60%">C,D,E,F,G,A,B</td></tr>
+              <tr><td>intervalName</td><td>string</td><td>'major' | 'minor' | 'major5' | 'minor5'</td></tr>
+              <tr><td>beat</td><td>string</td><td>'4/4','3/4','6/8'</td></tr>
+            </table>
+<pre><code>var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');</code></pre>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">Mode</td><td width="20%">Object</td><td width="60%">Store base information</td></tr>
+              <tr><td>Data</td><td>Array</td><td>The Notes in the music score</td></tr>
+              <tr><td>Sections</td><td>Array</td><td>The Notes which have been complied</td></tr>
+              <tr><td>IsCompiled</td><td>string</td><td>Whether has been complied</td></tr>
+              <tr><td>FreqChat</td><td>Object</td><td>The frequent of notes</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.w()</h3>
+            <p class='funcDesc'>Append note to music score</p>
+<pre><code>musisSocre.w(new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
+            <h3>.d()</h3>
+            <p class='funcDesc'>Delete note from music score</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">index</td><td width="20%">number</td><td width="60%">start position</td></tr>
+              <tr><td>num</td><td>number</td><td>the number of note</td></tr>
+            </table>
+<pre><code>musisSocre.d(0,1);</code></pre>
+            <h3>.u()</h3>
+            <p class='funcDesc'>update note from music score</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">arguments[0]</td><td width="20%">number</td><td width="60%">start position</td></tr>
+              <tr><td>arguments[1]</td><td>number</td><td>how many</td></tr>
+              <tr><td>arguments[2+]</td><td>Object</td><td>New notes</td></tr>
+            </table>
+<pre><code>musisSocre.u(0,2,new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
+            <h3>.r()</h3>
+            <p class='funcDesc'>Read note from music score</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">start</td><td width="20%">number</td><td width="60%">start position</td></tr>
+              <tr><td>end</td><td>number</td><td>end position</td></tr>
+              <tr><td>return</td><td>Array</td><td>Notes</td></tr>
+            </table>
+<pre><code>musisSocre.r(0,1);</code></pre>
+            <h3>.reverse()</h3>
+            <p class='funcDesc'>Reverse the data in music score</p>
+<pre><code>musisSocre.reverse();</code></pre>
+            <h3>.merge()</h3>
+            <p class='funcDesc'>Append a music score to the current music score</p>
+<pre><code>musisSocre.merge(musisSocre2);</code></pre>
+            <h3>.compile()</h3>
+            <p class='funcDesc'>Complie music score for track to play</p>
+<pre><code>musisSocre.compile();</code></pre>
           </section>
           <section>
             <h1 id='Track'>Track</h1>
-            <h2>Jsonic.Melody.Track</h2>
-            <p>create a track</p>
-<pre><code>var player = new Jsonic.Melody.Track();</code></pre>
-            <p>play a music score</p>
-<pre><code>//...
-musisSocre.compile();
-var player = new Jsonic.Melody.Track();
-player.play(musisSocre,120);
-//...</code></pre>
+            <h2>Constructor</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">context</td><td width="20%">Object | null</td><td width="60%">Audio Contect</td></tr>
+            </table>
+<pre><code>var track = new Jsonic.Melody.Track();</code></pre>
+            <h2>Property</h2>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">Ctx</td><td width="20%">Object</td><td width="60%">The contect of the track</td></tr>
+              <tr><td>IsRunning</td><td>boolean</td><td>Is Running</td></tr>
+              <tr><td>AnalyserNode</td><td>Object</td><td>web aduio analyserNode</td></tr>
+              <tr><td>WaveShaperNode</td><td>Object</td><td>web aduio waveShaperNode</td></tr>
+            </table>
+            <h2>Method</h2>
+            <h3>.play()</h3>
+            <p class='funcDesc'>play a music score</p>
+            <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
+              <tr><td width="20%">musicScore</td><td width="20%">Object</td><td width="60%">the instance of MusicScore</td></tr>
+              <tr><td>speed</td><td>number</td><td>how many 1/4 note in a minute</td></tr>
+              <tr><td>curve</td><td>number</td><td>the amount of curve</td></tr>
+            </table>
+<pre><code>track.play(musisSocre,90);</code></pre>
+            <h3>.stop()</h3>
+            <p class='funcDesc'>Stop playing</p>
+<pre><code>track.stop();</code></pre>
           </section>
         </article>
       </div>
@@ -89,16 +162,13 @@ player.play(musisSocre,120);
           <li><a href="index.html">Get Start</a></li>
           <li><a href="core.html">Core</a></li>
           <li class='sub'><a href="core.html#Browser">Browser</a></li>
-          <li class='sub'><a href="core.html#noConflict">noConflict</a></li>
-          <li><a href="melody.html">Compose music</a></li>
+          <li><a href="melody.html">Melody</a></li>
           <li class='sub'><a href="melody.html#MusicScore">MusicScore</a></li>
           <li class='sub'><a href="melody.html#Note">Note</a></li>
           <li class='sub'><a href="melody.html#Track">Track</a></li>
-          <li><a href="ultrasound.html">Ultrasound Channel</a></li>
-          <li class='sub'><a href="ultrasound.html#Sender">Sender</a></li>
-          <li class='sub'><a href="ultrasound.html#Accepter">Accepter</a></li>
-          <li><a href="painter.html">Audio Visualiztion</a></li>
-          <li><a href="Voix.html">Speech Recognition</a></li>
+          <li><a href="ultrasound.html">Ultrasound</a></li>
+          <li><a href="painter.html">Painter</a></li>
+          <li><a href="Voix.html">Voix</a></li>
         </ul>
         <a class='githublink' href="https://github.com/ArthusLiang/jsonic" target="_blank">
           <img src="../img/github.png" /><span>ArthusLiang</span>
