@@ -1,7 +1,7 @@
 *{margin: 0px; padding: 0px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;}
 
-header{width:100%; height:170px;}
-header img{margin: 45px 0 0 65px;}
+header{width:100%; height:120px;}
+header img{margin: 45px 0 0 65px; width: 104;height: 47px;}
 
 footer{width:100%; height:150px; background: #eee;margin-top: 40px; }
 footer p{text-align: center;color: #666; margin-top: 20px; }
@@ -29,18 +29,21 @@ nav .current{color:#33A6CD;}
 .main{width: 100%; margin-top: 20px;}
 
 .aside_wide{width:100%; }
-.aside_wide h1{background:#eee;display: block;height: 48px; line-height: 48px; color:#CC3333; font-size: 20px; font-style: normal; text-indent: 20px; }
+.aside_wide h1{background:#ddd;display: block;height: 48px; line-height: 48px; color:#CC3333; font-size: 20px; font-style: normal; text-indent: 20px; }
 .aside_wide h2{font-size: 20px; font-style: normal; text-indent: 20px; margin-top:15px;}
 .aside_wide h3{font-size: 16px; font-style: normal; text-indent: 20px; margin-top:15px;color:#33A6CD;}
-.aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px 15px 20px;}
+.aside_wide p{text-indent: 2em; line-height: 180%; margin: 15px 20px 0px 20px;}
 .aside_wide table{width: 100%; line-height: 35px;background:#eee; color: #666; text-indent: 10px; margin-top: 10px;}
 .aside_wide .funcDesc{background:#eee; color:#666;border:1px dashed #ccc;margin: 15px 0px 15px 0px; padding: 5px 0;}
+.aside_wide section{margin-bottom: 30px;}
+
 .aside_norrow{width:100%; margin-top: 20px;}
 .aside_norrow h1{font-size: 20px; font-style: normal; color:#CC3333; text-indent: 20px;}
 .aside_norrow li{list-style:disc inside; margin-top: 15px; text-indent: 20px;}
 .aside_norrow li a{font-size: 16px; color: #000; text-decoration: underline; cursor: pointer;}
 .aside_norrow .sub{list-style: none !important; text-indent: 40px !important;}
 .aside_norrow .sub a{color: #666;text-decoration: none;}
+
 
 .githublink{display: block; width: 100%; height: 40px; margin-top: 20px; text-indent: 20px;}
 .githublink span{line-height: 40px;height: 40px; font-size: 16px; display: inline-block; vertical-align: top; color: #000; }
