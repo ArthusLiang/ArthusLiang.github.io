@@ -2,9 +2,9 @@
 
     var N = function(rollcall,duration,freqIndex,hasDot,isPart){
             return new Jsonic.Melody.Note(rollcall,duration,freqIndex,hasDot,isPart);
-        };
-    var player = new Jsonic.Melody.Track();
-    var TillTheEndOfTheWorld = new Jsonic.Melody.MusicScore('E','major','4/4');
+        },
+        player = new Jsonic.Melody.Track(),
+        TillTheEndOfTheWorld = new Jsonic.Melody.MusicScore('E','major','4/4');
 
     TillTheEndOfTheWorld.w(N(0,1/4,0,true),N(1,1/8,1),N(7,1/8),N(6,1/8),N(5,1/8),N(6,1/8));
     TillTheEndOfTheWorld.w(N(5,1/8),N(5,1/8),N(5),N(0),N(3,1/8),N(5,1/8));
@@ -45,13 +45,19 @@
     TillTheEndOfTheWorld.compile();
 
     window.onload=function(){
+        var myCanvas = document.getElementById('myCanvas'),
+            painter = new Jsonic.Painter();
+        painter.attach(myCanvas,player.AnalyserNode,{'BF':{func:'wave'}});
+
         var btnStart = document.getElementById('btnStart'),
             ifStart=false;
         btnStart.onclick=function(){
             if(ifStart){
                 player.stop();
+                painter.stop();
             }else{
                 player.play(TillTheEndOfTheWorld,90);
+                painter.start();
                 btnStart.innerHTML='stop';
                 ifStart=true;
             }
@@ -60,6 +66,7 @@
         player.onend=function(){
             btnStart.innerHTML='start';
             ifStart=false;
+            painter.stop();
         };
 
     };
