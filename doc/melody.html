@@ -86,7 +86,7 @@
               <tr><td>intervalName</td><td>string</td><td>'major' | 'minor' | 'major5' | 'minor5'</td></tr>
               <tr><td>beat</td><td>string</td><td>'4/4','3/4','6/8'</td></tr>
             </table>
-<pre><code>var musisSocre = new Jsonic.Melody.MusicScore('E','major','4/4');</code></pre>
+<pre><code>var musicSocre = new Jsonic.Melody.MusicScore('E','major','4/4');</code></pre>
             <h2>Property</h2>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
               <tr><td width="20%">Mode</td><td width="20%">Object</td><td width="60%">Store base information</td></tr>
@@ -98,14 +98,14 @@
             <h2>Method</h2>
             <h3>.w()</h3>
             <p class='funcDesc'>Append note to music score</p>
-<pre><code>musisSocre.w(new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
+<pre><code>musicSocre.w(new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
             <h3>.d()</h3>
             <p class='funcDesc'>Delete note from music score</p>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
               <tr><td width="20%">index</td><td width="20%">number</td><td width="60%">start position</td></tr>
               <tr><td>num</td><td>number</td><td>the number of note</td></tr>
             </table>
-<pre><code>musisSocre.d(0,1);</code></pre>
+<pre><code>musicSocre.d(0,1);</code></pre>
             <h3>.u()</h3>
             <p class='funcDesc'>update note from music score</p>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
@@ -113,7 +113,7 @@
               <tr><td>arguments[1]</td><td>number</td><td>how many</td></tr>
               <tr><td>arguments[2+]</td><td>Object</td><td>New notes</td></tr>
             </table>
-<pre><code>musisSocre.u(0,2,new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
+<pre><code>musicSocre.u(0,2,new Jsonic.Melody.Note(3),new Jsonic.Melody.Note(4));</code></pre>
             <h3>.r()</h3>
             <p class='funcDesc'>Read note from music score</p>
             <table border="1" bordercolor="#fff" cellpadding="0" cellspacing="1">
@@ -121,16 +121,16 @@
               <tr><td>end</td><td>number</td><td>end position</td></tr>
               <tr><td>return</td><td>Array</td><td>Notes</td></tr>
             </table>
-<pre><code>musisSocre.r(0,1);</code></pre>
+<pre><code>musicSocre.r(0,1);</code></pre>
             <h3>.reverse()</h3>
             <p class='funcDesc'>Reverse the data in music score</p>
-<pre><code>musisSocre.reverse();</code></pre>
+<pre><code>musicSocre.reverse();</code></pre>
             <h3>.merge()</h3>
             <p class='funcDesc'>Append a music score to the current music score</p>
-<pre><code>musisSocre.merge(musisSocre2);</code></pre>
+<pre><code>musicSocre.merge(musicSocre2);</code></pre>
             <h3>.compile()</h3>
             <p class='funcDesc'>Complie music score for track to play</p>
-<pre><code>musisSocre.compile();</code></pre>
+<pre><code>musicSocre.compile();</code></pre>
           </section>
           <section>
             <h1 id='Track'>Track</h1>
@@ -154,7 +154,7 @@
               <tr><td>speed</td><td>number</td><td>how many 1/4 note in a minute</td></tr>
               <tr><td>curve</td><td>number</td><td>the amount of curve</td></tr>
             </table>
-<pre><code>track.play(musisSocre,90);</code></pre>
+<pre><code>track.play(musicSocre,90);</code></pre>
             <h3>.stop()</h3>
             <p class='funcDesc'>Stop playing</p>
 <pre><code>track.stop();</code></pre>
