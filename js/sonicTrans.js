@@ -1290,15 +1290,10 @@
                 }
             },
             onReceived:function(data){
-                //去掉1111和00000
                 console.log(data);
                 var _start=data.indexOf('111111110')+8;
-                data= data.sub(_start);
-                data= data.slice(0,data.length-data.length%8);
-
-                while(data.sub(data.length-8)==='00000000'){
-                    data = data.slice(0,data.length-8);
-                }
+                data= data.slice(_start);
+                data = data.slice(0,(data.lastIndexOf('1')/8>>0)*8);
                 var Hello = SonicCoder.decode(data);
                 this.onMsg(Hello);
                 return Hello;
