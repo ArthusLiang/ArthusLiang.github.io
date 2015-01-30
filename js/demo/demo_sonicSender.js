@@ -46,27 +46,35 @@
 
     window.onload=function(){
         var myCanvas = document.getElementById('myCanvas'),
-            painter = new Jsonic.Painter();
-        painter.attach(myCanvas,player.AnalyserNode,{'BF':{func:'wave'}});
+            txtArea= document.getElementById('txtArea'),
+            btnStart = document.getElementById('btnStart'),
+            pSonicStatus=document.getElementById('sonicStatus'),
+            painter = new Jsonic.Painter(),
+            band = new Jsonic.Band();
 
-        var btnStart = document.getElementById('btnStart'),
-            ifStart=false;
-        btnStart.onclick=function(){
-            if(ifStart){
-                //player.stop();
-                painter.stop();
-            }else{
-                //player.play(TillTheEndOfTheWorld,90);
-                painter.start();
-                btnStart.innerHTML='stop';
-                ifStart=true;
-            }
+        band.initDefaultChannel();
+
+        var progess=function(last){
+            var _start = new Date(),
+                _ref=function(){
+                    var _rate= (new Date()-_start)/last>>0;
+                };
+            requestAnimationFrame(_ref);
         };
 
-        player.onend=function(){
-            btnStart.innerHTML='start';
-            ifStart=false;
-            painter.stop();
+        btnStart.onclick=function(){
+            var _val=band.send('Jsonic',function(){
+                btnStart.style.display='inline-block';
+                pSonicStatus.style.display='none';
+                //player.stop();
+            });
+            //sending
+            if(_val){
+                btnStart.style.display='none';
+                pSonicStatus.style.display='';
+                pSonicStatus.innerHTML='It will take '+_val.last+' seconds to transfer the data. Musis will stop when it has finished.';
+                //  player.play(TillTheEndOfTheWorld,90);
+            }
         };
 
     };
