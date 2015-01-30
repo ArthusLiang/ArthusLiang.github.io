@@ -63,17 +63,20 @@
         };
 
         btnStart.onclick=function(){
-            var _val=band.send('Jsonic',function(){
-                btnStart.style.display='inline-block';
-                pSonicStatus.style.display='none';
-                player.stop();
-            });
-            //sending
-            if(_val){
-                btnStart.style.display='none';
-                pSonicStatus.style.display='';
-                pSonicStatus.innerHTML='It will take '+_val.last+' seconds to transfer the data. Musis will stop when it has finished.';
-                player.play(TillTheEndOfTheWorld,90);
+            var _msg = txtArea.value;
+            if(_msg!=''){
+                var _val=band.send('Jsonic',function(){
+                    btnStart.style.display='inline-block';
+                    pSonicStatus.style.display='none';
+                    player.stop();
+                });
+                //sending
+                if(_val){
+                    btnStart.style.display='none';
+                    pSonicStatus.style.display='';
+                    pSonicStatus.innerHTML='It will take '+_val.last+' seconds to transfer the data. Musis will stop when it has finished.';
+                    player.play(TillTheEndOfTheWorld,90);
+                }
             }
         };
 
