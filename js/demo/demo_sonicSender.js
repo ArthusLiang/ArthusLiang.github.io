@@ -65,7 +65,7 @@
         btnStart.onclick=function(){
             var _msg = txtArea.value;
             if(_msg!=''){
-                var _val=band.send('Jsonic',function(){
+                var _val=band.send(_msg,function(){
                     btnStart.style.display='inline-block';
                     pSonicStatus.style.display='none';
                     player.stop();
