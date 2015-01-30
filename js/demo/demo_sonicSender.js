@@ -49,7 +49,7 @@
             txtArea= document.getElementById('txtArea'),
             btnStart = document.getElementById('btnStart'),
             pSonicStatus=document.getElementById('sonicStatus'),
-            painter = new Jsonic.Painter(),
+            //painter = new Jsonic.Painter(),
             band = new Jsonic.Band();
 
         band.initDefaultChannel();
