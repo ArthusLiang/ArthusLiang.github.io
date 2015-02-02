@@ -53,10 +53,10 @@
             ifStart=false;
         btnStart.onclick=function(){
             if(ifStart){
-                //player.stop();
+                player.stop();
                 painter.stop();
             }else{
-                //player.play(TillTheEndOfTheWorld,90);
+                player.play(TillTheEndOfTheWorld,90);
                 painter.start();
                 btnStart.innerHTML='stop';
                 ifStart=true;
