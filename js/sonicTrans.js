@@ -463,7 +463,7 @@
                 for(i=0,l=musicScore.Data.length;i<l;i++){
                     _cData = musicScore.Data[i];
                     if(_cData.BaseRollCall!=0){
-                        _cData.Osc.stop();
+                        _cData.Osc.stop(0);
                         delete _cData.Osc;
                     }
                 }
