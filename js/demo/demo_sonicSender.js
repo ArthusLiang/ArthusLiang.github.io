@@ -45,8 +45,7 @@
     TillTheEndOfTheWorld.compile();
 
     window.onload=function(){
-        var myCanvas = document.getElementById('myCanvas'),
-            txtArea= document.getElementById('txtArea'),
+        var txtArea= document.getElementById('txtArea'),
             btnStart = document.getElementById('btnStart'),
             pSonicStatus=document.getElementById('sonicStatus'),
             //painter = new Jsonic.Painter(),
@@ -67,14 +66,14 @@
                 var _val=band.send(_msg,function(){
                     btnStart.style.display='inline-block';
                     pSonicStatus.style.display='none';
-                    //player.stop();
+                    player.stop();
                 });
                 //sending
                 if(_val){
                     btnStart.style.display='none';
                     pSonicStatus.style.display='';
                     pSonicStatus.innerHTML='It will take '+_val.last+' seconds to transfer the data. Musis will stop when it has finished.';
-                    //player.play(TillTheEndOfTheWorld,90);
+                    player.play(TillTheEndOfTheWorld,90);
                 }
             }
         };
