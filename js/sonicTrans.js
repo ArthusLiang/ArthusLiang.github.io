@@ -541,7 +541,8 @@
             this.GainNode.gain.value=0;
             this.Osc.connect(this.GainNode);
             this.GainNode.connect(this.Ctx.destination);
-            this.Osc.start();
+
+            //can not start automatically in mobile device, so... this.Osc.start();
 
             this.Data = data;
         };
@@ -555,6 +556,9 @@
                     }
                 }
                 _gain.setValueAtTime(0,startTime+duration*i);
+            },
+            startOsc:function(){
+                this.Osc.start(0);
             },
             isPeakLike:function(){
                 var _data = this.Data,
@@ -626,6 +630,8 @@
             this.Analyser.smoothingTimeConstant = 0.1;
             this.Interval=0.1;
 
+            this.NeedOscStart = true;
+
         };
         Band.prototype={
             initDefaultChannel:function(){
@@ -638,9 +644,18 @@
                 }
                 //this.ChannelPairs.concat(arguments);
             },
+            startOsc:function(){
+                if(this.NeedOscStart){
+                    for(var i=0,l=this.ChannelPairs.length;i<l;i++){
+                        this.ChannelPairs[i].High.startOsc();
+                        this.ChannelPairs[i].Low.startOsc();
+                    }
+                    this.NeedOscStart = false;
+                }
+            },
             complieData:function(data){
                 data= this.DataHeader+SonicCoder.encode(data)+this.DataEnd;
-                console.log('complie data:',data);
+                //console.log('complie data:',data);
                 var _pl = this.ChannelPairs.length,
                     _l=data.length,
                     _data=[],i,j;
@@ -661,17 +676,17 @@
                         _data[j][1].push(1);
                     }
                 }
-                console.log(_data[0][1].join(''));
-                console.log(_data[0][0].join(''));
-                console.log(_data[1][1].join(''));
-                console.log(_data[1][0].join(''));
+                //console.log(_data[0][1].join(''));
+                //console.log(_data[0][0].join(''));
+                //console.log(_data[1][1].join(''));
+                //console.log(_data[1][0].join(''));
                 return _data;
             },
             send:function(data,callback){
                 if(this.CanSend){
+                    this.startOsc();
                     //lock
                     this.CanSend= false;
-
                     var me =this,
                         _data= me.complieData(data),//prepare data
                         _ctx = this.AudioContext,
@@ -683,7 +698,7 @@
                     _osc.onended=function(){
                         me.CanSend = true;
                         callback && callback();
-                        console.log('OK');
+                        //console.log('OK');
                     };
                     var _time = _ctx.currentTime+0.5,//-------------------------------------->time left for communicating
                         _last=_data[0][0].length*_interval;
@@ -694,7 +709,7 @@
                     //set callback
                     _osc.start(_time);
                     _osc.stop(_time+_last);
-                    console.log(_last);
+                    //console.log(_last);
                     return {
                         last:_last,
                         complieData:_data
@@ -727,7 +742,7 @@
             },
             onReceived:function(data){
                 //去掉1111和00000
-                console.log(data);
+                //console.log(data);
                 var _start=data.indexOf('111111110')+8;
                 data= data.slice(_start);
                 data = data.slice(0,((data.lastIndexOf('1')/8>>0)+1)*8);
@@ -768,8 +783,8 @@
                             for(var i=0;i<_pl;i++){
                                 _data.push(me.ChannelPairs[i].getByCount());//---------------------------------------->get
                             }
-                            console.log(_data);//--------------------------------------------------------------------->log data
-                            if(_data.length>12 &&  _data.slice(_data.length-12).join('')==='000000000000'){
+                            //console.log(_data);//--------------------------------------------------------------------->log data
+                            if((_data.length>12 &&  _data.slice(_data.length-12).join('')==='000000000000') || !me.ChannelPairs[0].hasPeak){
                                 me.onReceived(_data.join(''));
                                 me.onEndReceive();
                                 me.scanEnvironment();
