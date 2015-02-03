@@ -3,7 +3,7 @@
     var N = function(rollcall,duration,freqIndex,hasDot,isPart){
             return new Jsonic.Melody.Note(rollcall,duration,freqIndex,hasDot,isPart);
         },
-        player = new Jsonic.Melody.Track(),
+        player = new Jsonic.Melody.TrackGain(),
         TillTheEndOfTheWorld = new Jsonic.Melody.MusicScore('E','major','4/4');
 
     TillTheEndOfTheWorld.w(N(0,1/4,0,true),N(1,1/8,1),N(7,1/8),N(6,1/8),N(5,1/8),N(6,1/8));
@@ -60,6 +60,7 @@
                 };
             requestAnimationFrame(_ref);
         };
+
         btnStart.onclick=function(){
             var _msg = txtArea.value;
             if(_msg!=''){
