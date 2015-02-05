@@ -1,5 +1,10 @@
-(function(){
-
+/*
+* @namespace   Jsonic
+* @Author:     yulianghuang
+* @CreateDate  2015/1/4
+*/
+(function(window){
+    //for no conflict
     var _Jsonic = window.Jsonic,
         _$=window.$;
 
@@ -162,6 +167,13 @@
         }
     };
 
+    //
+    Jsonic.Microphone=function(){
+
+    };
+    Jsonic.Microphone.prototype={
+
+    };
 
     window.Jsonic = Jsonic;
 
@@ -463,7 +475,7 @@
                 for(i=0,l=musicScore.Data.length;i<l;i++){
                     _cData = musicScore.Data[i];
                     if(_cData.BaseRollCall!=0){
-                        _cData.Osc.stop(0);
+                        _cData.Osc.stop();
                         delete _cData.Osc;
                     }
                 }
@@ -474,110 +486,7 @@
             }
         };
 
-        var TrackGain=function(context){
-            this.Ctx = context || new webkitAudioContext();
-
-            //this.Oscillator =this.Ctx .createOscillator();
-            this.IsFree=true;
-            //this.Oscillator.connect(this.Ctx.destination);
-            this.AnalyserNode = this.Ctx.createAnalyser(),
-            this.WaveShaperNode = this.Ctx.createWaveShaper();
-
-            this.WaveShaperNode.connect(this.AnalyserNode);
-            this.AnalyserNode.connect(this.Ctx.destination);
-            this.Collection={};
-        };
-        TrackGain.prototype={
-            makeDistortionCurve:function(amount){
-                var k = typeof amount === 'number' ? amount : 50,
-                    n_samples = 44000,
-                    curve = new Float32Array(n_samples),
-                    deg = Math.PI / 180,
-                    i = 0,
-                    x;
-                for ( ; i < n_samples; ++i ) {
-                    x = i * 2 / n_samples - 1;
-                    curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x));
-                }
-                this.WaveShaperNode.curve =curve;
-            },
-            playNote:function(freq,start,duration){
-                var me = this,
-                    _ctx = me.Ctx,
-                    _gain;
-                if(this.Collection[freq]===undefined){
-                    var _osc = _ctx.createOscillator();
-                    _gain = _ctx.createGain();
-                    _osc.frequency.value =  freq;
-                    _osc.OscillatorType = 'sine';
-                    _gain.gain.value =0;
-                    _osc.connect(_gain);
-                    _gain.connect(_ctx.destination);
-
-                    this.Collection[freq]={
-                        Osc:_osc,
-                        GainNode:_gain
-                    };
-                    _osc.start(0);
-                }else{
-                    _gain=this.Collection[freq].GainNode;
-                }
-                _gain.gain.setValueAtTime(1,start);
-                _gain.gain.setValueAtTime(0,start+duration-0.001);//this gap is important
-            },
-            play:function(musicScore,speed,curve){
-                if(this.IsFree){
-                    var me=this;
-                    me.IsFree=false;
-                    me.MusicScore = musicScore;
-                    me.makeDistortionCurve(curve);
-                    var _index=0,
-                        _ctx = this.Ctx,
-                        _destination = me.WaveShaperNode,
-                        _osc = me.Oscillator,
-                        _cData,
-                        _cTime = _ctx.currentTime,
-                        _max=musicScore.Data.length,
-                        _speed = speed || 60,
-                        _speedRate = 60/_speed/_oneBeat*4,
-                        i,l;
-                    for(i=0,l=musicScore.Data.length;i<l;i++){
-                        _cData = musicScore.Data[i];
-                        if(_cData.BaseRollCall!=0){
-                            me.playNote(_cData.frequency,_cTime+_cData.relativeTime*_speedRate,_cData._len*_speedRate);
-                        }
-                    }
-                    for(var i=l-1;i>=0;i--){
-                        _cData = musicScore.Data[i];
-                        if(_cData.BaseRollCall!==0){
-                            me.Collection[_cData.frequency].Osc.onended=function(){
-                                me.IsFree= true;
-                                me.onend();
-                            }
-                            break;
-                        }
-                    }
-                }
-            },
-            stop:function(){
-                if(!this.IsFree){
-                    for(var i in this.Collection){
-                        this.Collection[i].Osc.stop(0);
-                        delete this.Collection[i].Osc;
-                        delete this.Collection[i].GainNode;
-                    }
-                    this.Collection={};
-                    this.onend();
-                    this.IsFree= true;
-                }
-            },
-            onend:function(){
-
-            }
-        };
-
         Jsonic.Melody={
-            TrackGain:TrackGain,
             Track:Track,
             Note:Note,
             MusicScore:MusicScore
@@ -589,7 +498,7 @@
     * @namespace   SonicPainter
     * @Author:     yulianghuang
     * @CreateDate  2014/12/8
-    * @Desciption  paint sound, high performance in rendering
+    * @Desciption  paint sound
     */
     (function(window,Jsonic){
         var painters=new function(){
@@ -1315,367 +1224,376 @@
     })(window,Jsonic);
 
     /*
-    * @namespace   Jsonic.Band
+    * @namespace   ultrasound
     * @Author:     yulianghuang
-    * @CreateDate  2015/1/30
+    * @CreateDate  2014/12/4
+    * @Desciption  Use sound to transform data
     */
-    (function(){
-        var SonicCoder = new function(){
-            var me=this,
-                _prefixZeroString='0000000000000000',
-                toAscii=function(str){
-                    var _arr=[];
-                    for(var i=0,l=str.length;i<l;i++){
-                        _arr.push(me.prefixZero(str.charCodeAt(i).toString(2),8));
-                    }
-                    return _arr.join('');
-                },
-                fromAscii=function(str){
-                    var _arr=[];
-                    for(var i=0,l=str.length;i<l;i+=8){
-                        _arr.push(parseInt(str.slice(i,i+8),2));
-                    }
-                    return String.fromCharCode.apply(this,_arr);
-                };
-
-            this.prefixZero=function(str,n){
-                return _prefixZeroString.slice(0,n-str.length)+str;
-            };
-            this.encode=function(str){
-                return me.compress(toAscii(encodeURI(str)));
-            };
-            this.decode=function(str){
-                return decodeURI(fromAscii(me.decompress(str)));
-            };
-            //to do & could be override
-            this.compress=function(str){
-                return str;
-            };
-            this.decompress=function(str){
-                return str;
-            };
+    (function(window,Jsonic){
+        //Buff
+        var SonicBuff = function(len){
+            this.Data=[];
+            this.MaxLen=len;
         };
-
-        window.SonicCoder = SonicCoder;
-
-
-        var Channel=function(ctx,peak,edge,base,data){
-            this.StartIndex= peak-edge;
-            this.PeakIndex = peak;
-            this.EndIndex = peak+edge;
-            this.Freq = peak*base;
-            //
-            this.Ctx= ctx;
-            this.Osc = ctx.createOscillator();
-            this.GainNode = ctx.createGain();
-            this.Osc.frequency.value = this.Freq;
-            this.GainNode.gain.value=0;
-            this.Osc.connect(this.GainNode);
-            this.GainNode.connect(this.Ctx.destination);
-
-            //can not start automatically in mobile device, so... this.Osc.start();
-
-            this.Data = data;
-        };
-        Channel.prototype={
-            send:function(data,startTime,duration,needPreDown){
-                var _gain = this.GainNode.gain;
-                for(var i=0,l=data.length;i<l;i++){
-                    _gain.setValueAtTime(data[i],startTime+duration*i);
-                    if(data[i] && needPreDown){
-                        _gain.setValueAtTime(0,startTime+duration*(i+0.8));
-                    }
-                }
-                _gain.setValueAtTime(0,startTime+duration*i);
+        SonicBuff.prototype={
+            get:function(index){
+                return this.Data[index] || null;
             },
-            startOsc:function(){
-                this.Osc.start(0);
+            last:function(){
+                return this.Data[this.Data.length-1] || null;
             },
-            isPeakLike:function(){
-                var _data = this.Data,
-                    i;
-                if(_data[this.PeakIndex]-_data[this.StartIndex]<15){//------------------------------------------> config
-                    return 0;
+            add:function(val){
+                this.Data.push(val);
+                if(this.Data.length>this.MaxLen){
+                    this.Data.shift();//this.Data.splice(0,1)
                 }
-                for(i=this.StartIndex;i<this.PeakIndex;i++){
-                    if(_data[i]>=_data[i+1]){
-                        return 0;
-                    }
-                }
-                for(i=this.EndIndex;i>this.peak;i--){
-                    if(_data[i]>_data[i-1]){
-                        return 0;
-                    }
-                }
-                return 1;
             },
-            getPeak:function(){
-                return this.Data[this.PeakIndex];
+            length:function(){
+                return this.Data.length;
             },
-            info:function(){
-                var _data = this.Data;
-                console.log(_data[this.StartIndex]>>0,_data[this.StartIndex+1]>>0,_data[this.PeakIndex]>>0,_data[this.EndIndex-1]>>0,_data[this.EndIndex]>>0);
+            clear:function(){
+                this.Data=[];
+            },
+            copy:function(){
+                var _copy = new SonicBuff(this.MaxLen);
+                _copy.Data = this.Data.slice(0);
+                return _copy; //instead for loop
+            },
+            remove:function(index,length){
+                if(0<=index && index<this.MaxLen-1){
+                    this.Data.splice(index,length);
+                }
             }
         };
 
-        var ChannelPair =function(ctx,peakHigh,peakLow,edge,base,data){
-            this.High = new Channel(ctx,peakHigh,edge,base,data);
-            this.Low = new Channel(ctx,peakLow,edge,base,data);
-            this.Count=[0,0];
+        //SonicCoder
+        var SonicCoder=function(opt){
+            opt = opt || {};
+            //this.CharDic= opt.CharDic || '\n abcdefghijklmnopqrstuvwxyz0123456789,.!?@*';
+            this.CharDic= opt.CharDic || '0123456789';
+            this.CharStart = opt.CharStart || '^';
+            this.CharEnd = opt.CharEnd || '$';
+            this.Dic = this.CharStart +this.CharDic + this.CharEnd;
+            this.DicLength = this.Dic.length;
+
+            this.FreqMin = opt.FreqMin || 20000;
+            this.FreqMax = opt.FreqMax || 22000;
+            this.FreqError = opt.FreqError || 50;
+            this.FreqStep =(this.FreqMax-this.FreqMin)/ this.DicLength;
+
         };
-        ChannelPair.prototype={
-            send:function(data,startTime,duration){
-                this.High.send(data[1],startTime,duration,true);
-                this.Low.send(data[0],startTime,duration);
+        SonicCoder.prototype={
+            charToFreq:function(char){
+                var _index= this.Dic.indexOf(char);
+                if(_index == -1){
+                    console.error(char,'is an invalid character.');
+                    _index = this.DicLength-1;
+                }
+                return this.FreqMin + Math.round(this.FreqStep * _index);
             },
-            get:function(){
-                return this.Low.getPeak() > this.High.getPeak() ? 0:1;
-            },
-            hasPeak:function(){
-                return this.High.isPeakLike() || this.Low.isPeakLike();
-            },
-            clearCount:function(){
-                this.Count=[0,0];
-            },
-            count:function(){
-                this.Count[this.get()]++;
-            },
-            getByCount:function(){
-                return this.Count[0] < this.Count[1] ? 1:0;
+            freqToChar:function(freq){
+                if(this.FreqMin>freq || this.FreqMax<freq){
+                    if(this.FreqMin -freq < this.FreqError){
+                        freq = this.FreqMin;
+                    }
+                    else if(freq-this.FreqMax >this.FreqError){
+                        freq = this.FreqMax;
+                    }else{
+                        console.error(freq, 'is out of range.');
+                        return null;
+                    }
+                }
+                return this.Dic[Math.round((freq-this.FreqMin)/this.FreqStep)];
             }
         };
 
-        var Band = function(audioContext,opt){
-            this.AudioContext = audioContext || new AudioContext();
-            this.Analyser = (opt && opt.Analyser) ?  opt.Analyser :this.AudioContext.createAnalyser();
-            this.FreqData = (opt && opt.FreqData) ?  opt.FreqData :new Float32Array(this.Analyser.frequencyBinCount);
-            /*
-            opt
-            */
-            //Jsonic.extend(this.opt);
-            this.DataHeader='1111111111111111';
-            this.DataEnd='0000000000000000';
-            this.CanSend=true;
-            this.ChannelPairs=[];
 
-            this.Analyser.smoothingTimeConstant = 0.1;
-            this.Interval=0.1;
+        var SonicSender=function(audioContext,coder,opt){
+            opt = opt || {};
+            this.AudioContext = audioContext;
+            this.Coder = coder;
+            this.charDuration =  opt.charDuration || 0.2;
+            this.rampDuration = opt.rampDuration || 0.001;
+        };
+        SonicSender.prototype={
+            send:function(msg,callback){
+                var freq,time;
+                msg  = this.Coder.CharStart + msg + this.Coder.CharEnd;
+                for(var i=0;i<msg.length;i++){
+                    freq =  this.Coder.charToFreq(msg[i]);
+                    time = this.AudioContext.currentTime + this.charDuration*i;
+                    this.scheduleToneAt(freq,time,this.charDuration);
+                }
+                if(callback){
+                    setTimeout(callback,this.charDuration*msg.length*1000);
+                }
+            },
+            scheduleToneAt:function(freq,startTime,duration){
+                var gainNode = this.AudioContext.createGain(),
+                    osc  = this.AudioContext.createOscillator();
 
-            this.NeedOscStart = true;
+                gainNode.gain.value=0;
+                gainNode.gain.setValueAtTime(0,startTime);
+                gainNode.gain.linearRampToValueAtTime(1,startTime+this.rampDuration);
+                gainNode.gain.setValueAtTime(1,startTime+duration-this.rampDuration);
+                gainNode.gain.linearRampToValueAtTime(0,startTime+duration);
+
+                osc.frequency.value = freq;
+
+                gainNode.connect(this.AudioContext.destination);
+                osc.connect(gainNode);
+                osc.start(startTime);
+            }
+        };
+
+        var S_STATE={
+            IDLE:1,
+            RECV:2
+        };
+
+        var SonicAccepter=function(audioContext,coder,opt){
+            opt = opt || {};
+            this.AudioContext = audioContext;
+            this.Coder = coder;
+
+
+            this.PeakThreshold = opt.PeakThreshold || -65;
+            this.MinRunLength = opt.MinRunLength || 2;
+            this.Timeout = opt.Timeout || 300;
+            this.DebugCanvas = opt.Canvas || 'SonicDebugCanvas';
+
+            this.PeakHistory = new SonicBuff(16);
+            this.PeakTimes = new SonicBuff(16);
+
+            this.Callbacks= {};
+
+            this.Buffer='';
+            this.State =S_STATE.IDLE;
+            this.Iteration =0;
+
+            this.IfDebug = !!opt.IfDebug;
+            this.IsRunning =false;
 
         };
-        Band.prototype={
-            initDefaultChannel:function(){
-                this.ChannelPairs.push(new ChannelPair(this.AudioContext,216,221,2,93.75,this.FreqData));
-                this.ChannelPairs.push(new ChannelPair(this.AudioContext,226,231,2,93.75,this.FreqData));
-            },
-            addChannelPair:function(){
-                for(var i=0,l=arguments.length;i<l;i++){
-                    this.ChannelPairs.push(arguments[i]);
-                }
-                //this.ChannelPairs.concat(arguments);
-            },
-            startOsc:function(){
-                if(this.NeedOscStart){
-                    for(var i=0,l=this.ChannelPairs.length;i<l;i++){
-                        this.ChannelPairs[i].High.startOsc();
-                        this.ChannelPairs[i].Low.startOsc();
-                    }
-                    this.NeedOscStart = false;
-                }
-            },
-            complieData:function(data){
-                data= this.DataHeader+SonicCoder.encode(data)+this.DataEnd;
-                //console.log('complie data:',data);
-                var _pl = this.ChannelPairs.length,
-                    _l=data.length,
-                    _data=[],i,j;
-                for(i=0;i<_pl;i++){
-                    if(data[i]==0){
-                        _data[i] = {0:[1],1:[0]};
-                    }else{
-                        _data[i] = {0:[0],1:[1]};
-                    }
-                }
-                for(;i<_l;i++){
-                    j = i%_pl;
-                    if(data[i]==0){
-                        _data[j][0].push(1);
-                        _data[j][1].push(0);
-                    }else{
-                        _data[j][0].push(0);
-                        _data[j][1].push(1);
-                    }
-                }
-                //console.log(_data[0][1].join(''));
-                //console.log(_data[0][0].join(''));
-                //console.log(_data[1][1].join(''));
-                //console.log(_data[1][0].join(''));
-                return _data;
-            },
-            send:function(data,callback){
-                if(this.CanSend){
-                    this.startOsc();
-                    //lock
-                    this.CanSend= false;
-                    var me =this,
-                        _data= me.complieData(data),//prepare data
-                        _ctx = this.AudioContext,
-                        _interval = this.Interval,
-                        _osc = _ctx.createOscillator();
-                    //set callback
-                    _osc.frequency.value= 80000;//avoid conflict to channelpairs
-                    _osc.connect(_ctx.destination);
-                    _osc.onended=function(){
-                        me.CanSend = true;
-                        callback && callback();
-                        //console.log('OK');
-                    };
-                    var _time = _ctx.currentTime+0.5,//-------------------------------------->time left for communicating
-                        _last=_data[0][0].length*_interval;
-                    //send information
-                    for(i=0,_l=this.ChannelPairs.length;i<_l;i++){
-                        this.ChannelPairs[i].send(_data[i],_time,me.Interval);
-                    }
-                    //set callback
-                    _osc.start(_time);
-                    _osc.stop(_time+_last);
-                    //console.log(_last);
-                    return {
-                        last:_last,
-                        complieData:_data
-                    }
-                }
-                return false;
 
-            },
-            listenSource:function(_input){
-                _input.connect(this.Analyser);
-            },
-            scanEnvironment:function(){
-                //console.log('scan environment!');
+
+        SonicAccepter.prototype = new Jsonic.Message();
+        SonicAccepter.prototype.constructor=SonicAccepter;
+
+        Jsonic.extend(SonicAccepter.prototype,{
+            start:function(){
                 var me =this;
-                this.Analyser.getFloatFrequencyData(this.FreqData);
-                //
-                //this.ChannelPairs[0].High.info();
-                if(this.ChannelPairs[0].High.isPeakLike() && this.ChannelPairs[1].High.isPeakLike()){
-                    me.receive();
+                navigator.webkitGetUserMedia({
+                    audio:{optional:[{echoCancellation:false}]}
+                },function(stream){
+                    me.onStream(stream);
+                    me.onstart();
+                },function(e){
+                    me.onStreamError(e);
+                });
+            },
+            stop:function(){
+                this.IsRunning = false;
+                this.Stream.stop();
+            },
+            onstart:function(){
+
+            },
+            /*
+            on:function(event,callback){
+                if(event == 'message'){
+                    this.Callbacks.message = callback;
+                }
+            },
+            fire:function(callback,arg){
+                callback(arg);
+            },
+            */
+            setDebug:function(value){
+                this.debug = value;
+                var canvas =document.getElementById(this.DebugCanvas);
+                if(canvas){
+                    canvas.parentNode.removeChild(canvas);
+                }
+            },
+            onStream:function(stream){
+                var me =this,
+                    _input = me.AudioContext.createMediaStreamSource(stream),
+                    _analyser = me.AudioContext.createAnalyser();
+
+                _input.connect(_analyser);
+                me.Freqs = new Float32Array(_analyser.frequencyBinCount);
+                me.Analyser = _analyser;
+                me.Stream = stream;
+                me.IsRunning = true;
+                me.raf(function(){
+                    me.loop();
+                });
+            },
+            onStreamError:function(e){
+                console.error('Audio input error:',e);
+            },
+            loop:function(){
+                var me =this;
+                //get data
+                me.Analyser.getFloatFrequencyData(me.Freqs);
+                //do sanity check the peaks every 5 seconds
+                if((me.Iteration+1)%(60*5)==0){
+                    me.restartServerIfSanityCheckFails();
+                }
+                var peakFreq = me.getPeakFrequency();
+                if(peakFreq){
+                    var char = me.Coder.freqToChar(peakFreq);
+                    //debug
+                    if(me.IfDebug){
+                        console.log('Transcribed char:'+ char);
+                    }
+                    me.PeakHistory.add(char);
+                    me.PeakTimes.add(new Date());
                 }else{
-                    requestAnimationFrame(function(){
-                        me.scanEnvironment();
+                    //no character was detected
+                    var lastPeakTime = me.PeakTimes.last();
+                    if(lastPeakTime && new Date() - lastPeakTime > me.Timeout){
+                        me.State = S_STATE.IDLE;
+                        if(me.IfDebug){
+                            console.log('Token',me.buffer,'timed out');
+                        }
+                        me.PeakTimes.clear();
+                    }
+                }
+                //
+                me.analysePeaks();
+                if(me.IsRunning){
+                    me.raf(function(){
+                        me.loop();
                     });
                 }
+                me.Iteration+=1;
+
             },
-            _travelPair:function(func){
-                for(var i=0,l=this.ChannelPairs.length;i<l;i++){
-                    this.ChannelPairs[i][func]();
+            getPeakFrequency:function(){ //get the max signal in the frequent brand
+                var me=this,
+                    _start = me.freToIndex(me.Coder.FreqMin),
+                    _max = - Infinity,
+                    _index=-1;
+                for(var i=_start;i<me.Freqs.length;i++){
+                    if(me.Freqs[i] > _max){
+                        _max = me.Freqs[i];
+                        _index=i;
+                    }
+                }
+                //in case
+                if(_max>me.PeakThreshold){
+                    return me.indexToFreq(_index);
+                }
+                return null;
+            },
+            //to be analyized
+            indexToFreq:function(index){ //频域信号
+                //采样频率sampleRate，定义了每秒从连续信号中提取并组成离散信号的采样个数，它用赫兹（Hz）来表示。
+                var nyquist = this.AudioContext.sampleRate/2;  // B=2W -> W=B/2 其中，W为理想低通信道的带宽，单位是赫兹（Hz） ;单位为"波特",常用符号"Baud"表示，简写为"B"。
+                return nyquist/this.Freqs.length*index;
+
+            },
+            freToIndex:function(freq){
+                var nyquist = this.AudioContext.sampleRate/2;
+                return Math.round(freq/nyquist*this.Freqs.length);
+            },
+            analysePeaks:function(){
+                var char = this.getLastRun();
+                if(!char){
+                    return;
+                }
+                if(this.State == S_STATE.IDLE){
+                    if(char == this.Coder.CharStart){
+                        this.buffer='';
+                        this.State = S_STATE.RECV;
+                    }
+                }else if(this.State == S_STATE.RECV){
+                    if(char != this.lastChar && char != this.Coder.CharStart && char != this.Coder.CharEnd){
+                        this.buffer +=char;
+                        this.lastChar = char;
+                    }
+                    if(char == this.Coder.CharEnd){
+                        this.State = S_STATE.IDLE;
+                        this.on(this.buffer);
+                        //this.fire(this.Callbacks.message,this.buffer);
+                        this.buffer='';
+                    }
                 }
             },
-            onReceived:function(data){
-                //去掉1111和00000
-                //console.log(data);
-                var _start=data.indexOf('111111110')+8;
-                data= data.slice(_start);
-                data = data.slice(0,((data.lastIndexOf('1')/8>>0)+1)*8);
-                var Hello = SonicCoder.decode(data);
-                this.onMsg(Hello);
-                return Hello;
-            },
-            receive:function(){
-                this.onStartReceive();
+            getLastRun:function(){
                 var me=this,
-                    _start = new Date(),
-                    _ob={},
-                    _num=0,
-                    _now,
-                    _range,
-                    _distance,
-                    _interval = me.Interval*1000,
-                    _pos= _interval*0.8,///2
-                    _data=[],
-                    _pl=this.ChannelPairs.length;
-
-                me._travelPair('clearCount');
-
-                //every frame
-                var _callback=function(){
-                    _now= new Date();
-                    _distance = _now-_start;//ms
-                    me.Analyser.getFloatFrequencyData(me.FreqData);
-                    //every interval
-                    if(_distance%_interval > _pos){
-                        _range = _distance/_interval>>0;
-                        //sum
-                        if(_ob[_range]===undefined){
-                            _ob[_range] = 1;
-                            _num++;
-                            //.....do func
-                            //get
-                            for(var i=0;i<_pl;i++){
-                                _data.push(me.ChannelPairs[i].getByCount());//---------------------------------------->get
-                            }
-                            //console.log(_data);//--------------------------------------------------------------------->log data
-                            if((_data.length>12 &&  _data.slice(_data.length-12).join('')==='000000000000') || !me.ChannelPairs[0].hasPeak){
-                                me.onReceived(_data.join(''));
-                                me.onEndReceive();
-                                me.scanEnvironment();
-                                return;
-                            }
-                            //clear
-                            me._travelPair('clearCount');//----------------------------------------------------------->clear
-                        }
-                        //incase too long
-                        if(_num===1000){
-                            _num=0;
-                            _start.setSeconds(_start.getSeconds()+_interval);
-                            _ob={};
-                        }
+                             lastChar = this.PeakHistory.last(),
+                    runLength=0;
+                for(var i=this.PeakHistory.length()-2;i>=0;i--){
+                    var char = this.PeakHistory.get(i);
+                    if(char == lastChar){
+                        runLength+=1;
+                    }else{
+                        break;
                     }
-                    me._travelPair('count');//------------------------------------------------------------------------>count
-                    requestAnimationFrame(_callback);
-                    //canrequest && requestAnimationFrame(_callback);
-                };
-                _callback();
+                }
+                if(runLength > me.MinRunLength){
+                    me.PeakHistory.remove(i+1,runLength+1);
+                    return lastChar;
+                }
+                return null;
+
             },
-            onMsg:function(data){
-                console.log(data);
+            raf:function(callback){
+                var isCrx = !!(window.chrome && chrome.extension);
+                if(isCrx){
+                    setTimeout(callback,1000/60);
+                }else{
+                    requestAnimationFrame(callback);
+                }
             },
-            onStartReceive:function(){
-                console.log('start receiving');
+            restartServerIfSanityCheckFails:function(){
+                var me =this;
+                //strange state 1: peaks gradually get quieter and quieter until they stabilize around -800
+                if(me.Freqs[0] < -300){
+                    console.error('freqs[0] < -300. Restarting.');
+                    me.restart();
+                    return;
+                }
+                //strange state 2: all of the peaks are -100.Check just the first few.
+                var _isValid = true;
+                for(var i=0;i<10;i++){
+                    if(me.Freqs[i] ==-100){
+                        _isValid=false;
+                    }
+                }
+                if(!_isValid){
+                    console.error('fregs[0:10] == -100. Restarting');
+                    me.restart();
+                }
             },
-            onEndReceive:function(){
-                console.log('stop receiving');
+            restart:function(){
+                window.location.reload();
+            }
+        });
+
+        var Ultrasound=function(opt){
+            this.AudioContext = window.audioContext || new webkitAudioContext();
+            this.Coder = new SonicCoder(opt);
+        };
+        Ultrasound.prototype={
+            createSender:function(opt){
+                var _sender=new SonicSender(this.AudioContext, this.Coder,opt);
+                this.Sender = _sender;
+                return _sender;
+            },
+            createAccepter:function(opt){
+                var _accepter = new SonicAccepter(this.AudioContext, this.Coder,opt);
+                this.Accepter = _accepter;
+                return _accepter;
             }
         };
 
-        Jsonic.Band = Band;
-    })();
+        Jsonic.Ultrasound = Ultrasound;
 
-    /*
-    * @namespace   Jsonic.View
-    * @Author:     yulianghuang
-    * @CreateDate  2015/1/30
-    */
-    (function(){
+    })(window,Jsonic);
 
-    })();
 
-    /*
-    * @namespace   Jsonic.SonicImage
-    * @Author:     yulianghuang
-    * @CreateDate  2015/1/30
-    */
-    (function(){
-        var SonicImage = function(){
-
-        };
-        SonicImage.prototype={
-
-        };
-    })();
-
-})();
-
-/*
-
-*/
+})(window);
