@@ -56,17 +56,17 @@
             <pre><code>var note1 = new Jsonic.Melody.Note(7,1/4,0,false);</code></pre>
             <h3>MusicScore</h3>
             <p>The following code created a 4/4 e major music score.</p>
-            <pre><code>var musicSocre = new Jsonic.Melody.MusicScore('E','major','4/4');</code></pre>
+            <pre><code>var musicScore = new Jsonic.Melody.MusicScore('E','major','4/4');</code></pre>
             <p>You can use the function 'w' to append note to the music score.</p>
-            <pre><code>musicSocre.w(note1, note2, new Jsonic.Melody.Note(7,1/4,0,false))</code></pre>
+            <pre><code>musicScore.w(note1, note2, new Jsonic.Melody.Note(7,1/4,0,false))</code></pre>
             <p>It is easy to change the modal of the music score. You just need to change the music's proprety.</p>
-            <pre><code>musicSocre.Mode.Alphabet='C';
-musicSocre.Mode.Interval='minor';</code></pre>
+            <pre><code>musicScore.Mode.Alphabet='C';
+musicScore.Mode.Interval='minor';</code></pre>
             <h3>Track</h3>
             <p>You need to create an instance of Track, if you want to play the music score.</p>
             <pre><code>var track = new Jsonic.Melody.Track();</code></pre>
             <p>Use the function play to play a music score. The speed of the music score should be defined at this time.</p>
-            <pre><code>track.play(musicSocre,90);</code></pre>
+            <pre><code>track.play(musicScore,90);</code></pre>
             <p>Use the function stop tp stop playing the music score. Click <a href='../demo/index.html'>here</a> to see a demo.</p>
             <pre><code>track.stop();</code></pre>
             <h3>TrackGain</h3>
