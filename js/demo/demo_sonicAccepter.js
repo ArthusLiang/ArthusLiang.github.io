@@ -18,6 +18,15 @@ window.onload=function(){
             _input = band.AudioContext.createMediaStreamSource(stream);
             band.listenSource(_input);
             band.scanEnvironment();
+            band.watch(document.getElementById('myCanvas'),890,920);//896
+            /*
+            var myCanvas = document.getElementById('myCanvas'),
+            painter = new Jsonic.Painter();
+
+            painter.attach(myCanvas,band.Analyser,{'BF':{func:'rectangle'}});
+            painter.start();
+            */
+
         },function(e){});
         btnStart.style.display='none';
     };

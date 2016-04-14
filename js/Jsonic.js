@@ -385,7 +385,7 @@
         };
 
         var Track=function(context){
-            this.Ctx = context || new webkitAudioContext();
+            this.Ctx = context || new AudioContext();
 
             //this.Oscillator =this.Ctx .createOscillator();
             this.IsRunning=false;
@@ -483,7 +483,7 @@
         };
 
         var TrackGain=function(context){
-            this.Ctx = context || new webkitAudioContext();
+            this.Ctx = context || new AudioContext();
 
             //this.Oscillator =this.Ctx .createOscillator();
             this.IsFree=true;
@@ -1423,6 +1423,10 @@
             info:function(){
                 var _data = this.Data;
                 console.log(_data[this.StartIndex]>>0,_data[this.StartIndex+1]>>0,_data[this.PeakIndex]>>0,_data[this.EndIndex-1]>>0,_data[this.EndIndex]>>0);
+            },
+            getData:function(){
+                var _data = this.Data;
+                return [_data[this.StartIndex]>>0,_data[this.StartIndex+1]>>0,_data[this.PeakIndex]>>0,_data[this.EndIndex-1]>>0,_data[this.EndIndex]>>0];
             }
         };
 
@@ -1450,12 +1454,16 @@
             },
             getByCount:function(){
                 return this.Count[0] < this.Count[1] ? 1:0;
+            },
+            getData:function(){
+                return this.High.getData().concat(this.Low.getData());
             }
         };
 
         var Band = function(audioContext,opt){
             this.AudioContext = audioContext || new AudioContext();
             this.Analyser = (opt && opt.Analyser) ?  opt.Analyser :this.AudioContext.createAnalyser();
+
             this.FreqData = (opt && opt.FreqData) ?  opt.FreqData :new Float32Array(this.Analyser.frequencyBinCount);
             /*
             opt
@@ -1474,8 +1482,19 @@
         };
         Band.prototype={
             initDefaultChannel:function(){
-                this.ChannelPairs.push(new ChannelPair(this.AudioContext,216,221,2,93.75,this.FreqData));
-                this.ChannelPairs.push(new ChannelPair(this.AudioContext,226,231,2,93.75,this.FreqData));
+                var srate = this.AudioContext.sampleRate/2,
+                    rate = srate/this.Analyser.frequencyBinCount,
+                    index1 = 21000/srate*this.Analyser.frequencyBinCount>>0;
+
+                this.AutoStart = index1;
+
+                this.ChannelPairs.push(new ChannelPair(this.AudioContext,index1-10,index1-5,2,rate,this.FreqData));
+                this.ChannelPairs.push(new ChannelPair(this.AudioContext,index1,index1+5,2,rate,this.FreqData));
+
+                console.log('PeakIndex:',index1,index1+5,index1+10,index1+15);
+
+                //this.ChannelPairs.push(new ChannelPair(this.AudioContext,216,221,2,93.75,this.FreqData));
+                //this.ChannelPairs.push(new ChannelPair(this.AudioContext,226,231,2,93.75,this.FreqData));
             },
             addChannelPair:function(){
                 for(var i=0,l=arguments.length;i<l;i++){
@@ -1565,7 +1584,11 @@
                 var me =this;
                 this.Analyser.getFloatFrequencyData(this.FreqData);
                 //
-                //this.ChannelPairs[0].High.info();
+  
+                //this._watch();
+
+                //console.log(this.ChannelPairs[0].High.isPeakLike() , this.ChannelPairs[1].High.isPeakLike());
+
                 if(this.ChannelPairs[0].High.isPeakLike() && this.ChannelPairs[1].High.isPeakLike()){
                     me.receive();
                 }else{
@@ -1573,6 +1596,53 @@
                         me.scanEnvironment();
                     });
                 }
+            },
+            _max:function(data,s1,s2){
+                var max1 = -Infinity,
+                    m1;
+                for(var i=s1-1,l=s2;i<l;i++){
+                    if(data[i]>max1){
+                        max1 = data[i];
+                        m1 = i;
+                    }
+                }
+                return m1;
+            },
+            _watch:function(){
+                if(this.WatchNode){
+                    var data = this.FreqData;  
+                 
+                    var _ctx = this.WatchNode,
+                        _dataWidth = 10,
+                        _wh = this.WatchHeight,
+                        loc;
+
+                    _ctx.clearRect(0,0,400,800);
+                    _ctx.beginPath();
+                    _ctx.fillStyle = '#ff0000';
+
+                    var mx = this._max(data,this.WatchStart,this.WatchEnd);
+
+                    _ctx.fillText(mx,100,60);
+
+                    _ctx.fillText(data[mx]-data[mx-2]>>0,200,60);
+
+                    for(var i=this.WatchStart-1,l=this.WatchEnd;i<l;i++){
+                        loc =(i-this.WatchStart-1)*_dataWidth+2;
+                        _y = (data[i]+160)*3;
+                        _ctx.fillRect(loc,_wh-_y,8,_y);
+                    }
+                    _ctx.closePath();
+                }
+            },
+            watch:function(dom,start,end){
+
+                console.log(this.AutoStart);//896
+
+                this.WatchStart = start;
+                this.WatchEnd = end;
+                this.WatchNode = dom.getContext('2d');
+                this.WatchHeight = dom.height;
             },
             _travelPair:function(func){
                 for(var i=0,l=this.ChannelPairs.length;i<l;i++){
