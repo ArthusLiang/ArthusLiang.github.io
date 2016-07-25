@@ -1585,7 +1585,7 @@
                 this.Analyser.getFloatFrequencyData(this.FreqData);
                 //
   
-                //this._watch();
+                this._watch();
 
                 //console.log(this.ChannelPairs[0].High.isPeakLike() , this.ChannelPairs[1].High.isPeakLike());
 
